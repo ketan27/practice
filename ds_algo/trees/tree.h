@@ -1,14 +1,26 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
+#include <queue>
 
-typedef struct _node {
-    int data;
-    struct _node *left;
-    struct _node *right;
-}node;
+using namespace std;
 
-node* createNode(int val);
-int insertNode(int val);
-void traverse(node *root, short order);
-int find(node *root, int val);
-int deleteTree(node *root);
+class tree {
+
+    public:
+        tree()  {   root = NULL;    }
+        int     insertNode(int val);
+        int     deleteTree();
+        void    display(int dispOpt = 0);
+        int     find(int val);
+
+    private:
+        typedef struct _node {
+            int data;
+            struct _node *left;
+            struct _node *right
+        }node;
+
+        node*   createNode(int val);
+        int     deleteNode(node *elem);
+        void    inorder(node *elem);
+        node    *root;
+};
