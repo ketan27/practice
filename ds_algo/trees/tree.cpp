@@ -1,5 +1,7 @@
 #include "tree.h"
 
+using namespace std;
+
 void tree::inorder(node *root)
 {
     if (root == NULL) {
@@ -8,7 +10,7 @@ void tree::inorder(node *root)
 
     inorder(root->left);
     cout << root->data << "\t";
-    inorder(root>right);
+    inorder(root->right);
 }
 
 int tree::deleteNode(node *elem)
@@ -30,43 +32,41 @@ node* tree::createNode(int val)
 }
 
 // returns 0 for success and 1 for fail
-int tree::insertNode(int val)
+int tree::insert(int val)
 {
     int retVal = 0;
     node *elem = createNode(val);
 
     if (elem == NULL) {
+        // When there is any error in allocating memory
         retVal = 1;
-        return retVal;
-    }
+    } else if (root == NULL) {
+        // The first insertion, which would be the root
+        root = elem;
+    } else {
+        // All other cases
+        queue<node*> q;
+        q.push(root);
 
-    queue<node*> q;
-    q.push(root);
+        while (!q.empty()) {
+            node *tmp = q.front();
+            q.pop();
 
-    while (!q.empty()) {
-        node *tmp = q.front();
-        q.pop();
+            // Check for place in left node
+            if (!tmp->left) {
+                tmp->left = elem;
+                break;
+            } else {
+                q.push(tmp->left);
+            }
 
-        // Check for insertion in the root node, i.e. the first insertion
-        if (!tmp) {
-            tmp = elem;
-            break;
-        }
-
-        // Check for place in left node
-        if (!tmp->left) {
-            tmp->left = elem;
-            break;
-        } else {
-            q.push(tmp->left);
-        }
-
-        // check for place in right node
-        if (!tmp->right) {
-            tmp->right = elem;
-            break;
-        } else {
-            q.push(elem);
+            // check for place in right node
+            if (!tmp->right) {
+                tmp->right = elem;
+                break;
+            } else {
+                q.push(elem);
+            }
         }
     }
 
@@ -80,37 +80,37 @@ int tree::insertNode(int val)
  * 2: postorder
  * 3: levelorder
  */
-void tree::display(int dispOpt = 1)
+void tree::display(int dispOpt)
 {
     if (!root) {
-        cout << "Tree is empty" << endl
-            return;
+        cout << "Tree is empty" << endl;
+        return;
     }
 
     switch(dispOpt) {
         case 1:
-            inorder(root)
+            cout << "Displaying in-order layout" << endl;
+            inorder(root);
             break;
 
         default:
             cout << "Wrong type of traversal selected" << endl;
     }
-
 }
 
-int tree::find(node *root, int val)
+int tree::find(int val)
 {
     return 1;
 }
 
-int tree::deleteTree(node *root)
+int tree::deleteTree()
 {
     return 1;
 }
 
 int main()
 {
-    tree t1 = new tree();
+    tree t1;
 
     t1.insert(1);
     t1.insert(2);
