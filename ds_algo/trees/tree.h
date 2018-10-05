@@ -1,6 +1,8 @@
 #include <iostream>
 #include <queue>
 
+#define LINE "-----------------------------------------------------"
+
 using namespace std;
 
 typedef struct _node {
@@ -23,5 +25,7 @@ class tree {
         node*   root;
         node*   createNode(int val);
         int     deleteNode(node *elem);
-        void    inorder(node *elem);
+        void    inorder(node *root);
+        void    preorder(node *root);
+        void    postorder(node *root);
 };
